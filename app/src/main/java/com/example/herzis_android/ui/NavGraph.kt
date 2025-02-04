@@ -2,46 +2,48 @@ package com.example.herzis_android.ui
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.herzis_android.ui.screens.HomeScreen
-import com.example.herzis_android.ui.screens.DetailScreen
-import com.example.herzis_android.ui.screens.SettingsScreen
+import com.example.herzis_android.ui.screens.HerzisScreen
+import com.example.herzis_android.ui.screens.SavingsScreen
+import com.example.herzis_android.ui.screens.TransactionsScreen
 import com.example.herzis_android.ui.screens.UserScreen
 
 @Composable
-fun NavGraph(userName: String) {
+fun NavGraph(userViewModel: UserViewModel, savingAccountViewModel: SavingAccountViewModel, transactionViewModel: TransactionViewModel) {
     val navController = rememberNavController()
+    val mainUser by userViewModel.mainUser.collectAsState(initial = null)
+    val mainUserName = mainUser?.name ?: ""
 
     Scaffold(
         topBar = {
-            CustomTopAppBar(title = "Meine App", navController, userName)
+            CustomTopAppBar(title = "Herzis", navController, mainUserName)
         },
         content = { innerPadding ->
             NavHost(
                 navController = navController,
-                startDestination = "home",
+                startDestination = "transactions",
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(innerPadding)
             ) {
-                composable("home") {
-                    HomeScreen()
+                composable("herzis") {
+                    HerzisScreen(userViewModel, savingAccountViewModel, transactionViewModel)
                 }
-                composable("detail") {
-                    DetailScreen()
+                composable("savings") {
+                    SavingsScreen(userViewModel, savingAccountViewModel, transactionViewModel)
                 }
-                composable("settings") {
-                    SettingsScreen()
+                composable("transactions") {
+                    TransactionsScreen(transactionViewModel)
                 }
                 composable("user") {
-                    UserScreen()
+                    UserScreen(userViewModel)
                 }
             }
         }

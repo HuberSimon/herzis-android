@@ -15,6 +15,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Button
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.Text
@@ -35,49 +36,59 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 @Composable
 fun CustomTopAppBar(title: String, navController: NavController, userName: String) {
     val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
+    Column {
 
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
         Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(
-                text = "Home",
-                modifier = Modifier
-                    .clickable { navController.navigate("home") }
-                    .padding(end = 16.dp),
-                style = MaterialTheme.typography.titleMedium.copy(
-                    fontWeight = if (currentRoute == "home") FontWeight.Bold else FontWeight.Normal
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "Herzis",
+                    modifier = Modifier
+                        .clickable { navController.navigate("herzis") }
+                        .padding(end = 16.dp),
+                    style = MaterialTheme.typography.titleMedium.copy(
+                        fontWeight = if (currentRoute == "herzis") FontWeight.Bold else FontWeight.Normal
+                    )
                 )
-            )
-            Text(
-                text = "Detail",
-                modifier = Modifier
-                    .clickable { navController.navigate("detail") }
-                    .padding(end = 16.dp),
-                style = MaterialTheme.typography.titleMedium.copy(
-                    fontWeight = if (currentRoute == "detail") FontWeight.Bold else FontWeight.Normal
+                Text(
+                    text = "Sparkonten",
+                    modifier = Modifier
+                        .clickable { navController.navigate("savings") }
+                        .padding(end = 16.dp),
+                    style = MaterialTheme.typography.titleMedium.copy(
+                        fontWeight = if (currentRoute == "savings") FontWeight.Bold else FontWeight.Normal
+                    )
                 )
-            )
-            Text(
-                text = "Settings",
-                modifier = Modifier
-                    .clickable { navController.navigate("settings") }
-                    .padding(end = 16.dp),
-                style = MaterialTheme.typography.titleMedium.copy(
-                    fontWeight = if (currentRoute == "settings") FontWeight.Bold else FontWeight.Normal
+                Text(
+                    text = "Transaktionen",
+                    modifier = Modifier
+                        .clickable { navController.navigate("transactions") }
+                        .padding(end = 16.dp),
+                    style = MaterialTheme.typography.titleMedium.copy(
+                        fontWeight = if (currentRoute == "transactions") FontWeight.Bold else FontWeight.Normal
+                    )
                 )
-            )
-        }
-        IconButton(onClick = { navController.navigate("user") }) {
-            CircleWithLetter(letter = userName.firstOrNull()?.uppercaseChar()?.toString() ?: "?")
+            }
+            IconButton(onClick = { navController.navigate("user") }) {
+                CircleWithLetter(letter = userName.firstOrNull()?.uppercaseChar()?.toString() ?: "?")
+            }
+
         }
 
+        Divider(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            thickness = 1.dp,
+            color = Color.Gray
+        )
     }
 }
 
